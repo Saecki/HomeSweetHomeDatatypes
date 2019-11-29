@@ -6,10 +6,10 @@ class WeeklyRule(id: String, name: String) : Rule(id, TYPE, name) {
         val TYPE = 1
     }
 
-    var timespans: MutableList<WeeklyTimeSpan> = mutableListOf()
+    var timeSpans: MutableList<WeeklyTimeSpan> = mutableListOf()
 
     fun sort() {
-        timespans.sortBy { weeklyTimeSpan ->
+        timeSpans.sortBy { weeklyTimeSpan ->
             weeklyTimeSpan.start.inMillis()
         }
     }
