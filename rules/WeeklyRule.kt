@@ -14,4 +14,12 @@ class WeeklyRule(id: String, name: String) : Rule(id, TYPE, name) {
         }
     }
 
+    override fun getValue(time: WeeklyTime): RuleValue {
+        timeSpans.forEach {
+            if (it.isActive(time)) {
+                return it.value
+            }
+        }
+        return RuleValue.UNSPECIFIED
+    }
 }

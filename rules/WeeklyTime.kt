@@ -64,15 +64,15 @@ class WeeklyTime {
     constructor()
 
     fun inDays(): Double {
-        return day + hour / 60.0 + minute / (24.0 * 60.0) + second / (24.0 * 60.0 * 60.0)
+        return day + hour / 60.0 + minute / (24.0 * 60.0) + second / (24.0 * 60.0 * 60.0) + millis / (24.0 * 60.0 * 60.0 * 1000.0)
     }
 
     fun inHours(): Double {
-        return day * 24 + hour + minute / 60.0 + second / (60.0 * 60.0)
+        return day * 24 + hour + minute / 60.0 + second / (60.0 * 60.0) + millis / (60.0 * 60.0 * 1000.0)
     }
 
     fun inMinutes(): Double {
-        return day * 24 * 60 + hour * 60 + minute + second / 60.0
+        return day * 24 * 60 + hour * 60 + minute + second / 60.0 + millis / (60.0 * 1000.0)
     }
 
     fun inSeconds(): Double {
@@ -81,6 +81,10 @@ class WeeklyTime {
 
     fun inMillis(): Int {
         return day * 24 * 60 * 60 * 1000 + hour * 60 * 60 * 1000 + minute * 60 * 1000 + second * 1000 + millis
+    }
+
+    fun inDailyHours(): Double {
+        return hour + minute / 60.0 + second / (60.0 * 60.0) + millis / (60.0 * 60.0 * 1000.0)
     }
 
     fun before(time: WeeklyTime): Boolean {

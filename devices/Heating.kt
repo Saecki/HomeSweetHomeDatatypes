@@ -9,4 +9,5 @@ class Heating(id: String, name: String, room: String, var actualTemp: Temperatur
     companion object {
         const val TYPE = 1
     }
+
 }

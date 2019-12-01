@@ -20,4 +20,12 @@ class WeeklyTimeSpan {
         return WeeklyTime((((end.inMillis() - start.inMillis()) % max) + max) % max)
     }
 
+    fun isActive(time: WeeklyTime): Boolean {
+        return if (start.before(end)) {
+            time.after(start) && time.before(end)
+        } else {
+            time.after(start) || time.before(end)
+        }
+    }
+
 }
