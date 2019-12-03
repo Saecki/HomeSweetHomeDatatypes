@@ -3,7 +3,7 @@ package bedbrains.shared.datatypes.rules
 class WeeklyRule(id: String, name: String) : Rule(id, TYPE, name) {
 
     companion object {
-        val TYPE = 1
+        const val TYPE = 1
     }
 
     var timeSpans: MutableList<WeeklyTimeSpan> = mutableListOf()

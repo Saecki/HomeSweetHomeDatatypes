@@ -12,7 +12,7 @@ class WeeklyTime {
 
     var hour = 0
         set(hour) {
-            field = Tools.clamp(hour, 0, 24)
+            field = Tools.clamp(hour, 0, 23)
         }
 
     var minute = 0
@@ -32,7 +32,7 @@ class WeeklyTime {
 
     companion object {
         val MIN = WeeklyTime(0)
-        val MAX = WeeklyTime(7 * 24 * 60 * 60 * 1000)
+        val MAX = WeeklyTime(6, 23, 59, 59, 999)
 
         fun now(): WeeklyTime {
             val dateTime = LocalDateTime.now()
@@ -54,10 +54,10 @@ class WeeklyTime {
     }
 
     constructor(millis: Int) {
-        this.day = millis / (7 * 24 * 60 * 60 * 1000) % 7
-        this.hour = millis / (24 * 60 * 60 * 1000) % 24
-        this.minute = millis / (60 * 60 * 1000) % 60
-        this.second = millis / (60 * 1000) % 60
+        this.day = millis / (24 * 60 * 60 * 1000) % 7
+        this.hour = millis / (60 * 60 * 1000) % 24
+        this.minute = millis / (60 * 1000) % 60
+        this.second = millis / 1000 % 60
         this.millis = millis % 1000
     }
 
@@ -95,12 +95,17 @@ class WeeklyTime {
         return this.inMillis() > time.inMillis()
     }
 
-    override fun equals(other: Any?): Boolean {
-        return try {
-            val time = other as WeeklyTime
-            time.inMillis() == this.inMillis()
-        } catch (e: Exception) {
-            false
-        }
+    override fun equals(other: Any?): Boolean = when (other) {
+        is WeeklyTime -> other.hashCode() == hashCode()
+        else -> false
+    }
+
+    override fun hashCode(): Int {
+        var result = day
+        result = 31 * result + hour
+        result = 31 * result + minute
+        result = 31 * result + second
+        result = 31 * result + millis
+        return result
     }
 }

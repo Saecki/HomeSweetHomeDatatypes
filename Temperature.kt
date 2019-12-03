@@ -19,7 +19,7 @@ class Temperature {
     companion object {
         val MIN = Temperature(0.0, Unit.KELVIN)
         val DEFAULT_UNIT = Unit.CELSIUS
-        val DEFAULT_DECIMALS = 1
+        const val DEFAULT_DECIMALS = 1
 
         var globalUnit = DEFAULT_UNIT
         var globalDecimals = DEFAULT_DECIMALS
@@ -45,10 +45,10 @@ class Temperature {
     }
 
     fun get(unit: Unit): Double {
-        when (unit) {
-            Unit.KELVIN -> return getKelvin()
-            Unit.CELSIUS -> return getCelsius()
-            Unit.FAHRENHEIT -> return getFahrenheit()
+        return when (unit) {
+            Unit.KELVIN -> getKelvin()
+            Unit.CELSIUS -> getCelsius()
+            Unit.FAHRENHEIT -> getFahrenheit()
         }
     }
 
@@ -99,13 +99,13 @@ class Temperature {
         return getKelvin() < temp.getKelvin()
     }
 
-    override fun equals(other: Any?): Boolean {
-        return try {
-            val otherTemp = other as Temperature
-            getKelvin() == otherTemp.getKelvin()
-        } catch (e: Exception) {
-            false
-        }
+    override fun equals(other: Any?): Boolean = when (other) {
+        is Temperature -> other.hashCode() == hashCode()
+        else -> false
+    }
+
+    override fun hashCode(): Int {
+        return temp.hashCode()
     }
 
     private fun roundTo(value: Double, decimals: Int): String {
