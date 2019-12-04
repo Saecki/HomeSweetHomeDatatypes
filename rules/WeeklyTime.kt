@@ -87,6 +87,18 @@ class WeeklyTime {
         return hour + minute / 60.0 + second / (60.0 * 60.0) + millis / (60.0 * 60.0 * 1000.0)
     }
 
+    fun inDailyMinutes(): Double {
+        return hour * 60 + minute + second / 60.0 + millis / (60.0 * 1000.0)
+    }
+
+    fun inDailySeconds(): Double {
+        return hour * 60 * 60 + minute * 60 + second + millis / 1000.0
+    }
+
+    fun inDailyMillis(): Int {
+        return hour * 60 * 60 * 1000 + minute * 60 * 1000 + second * 1000 + millis
+    }
+
     fun before(time: WeeklyTime): Boolean {
         return this.inMillis() < time.inMillis()
     }
