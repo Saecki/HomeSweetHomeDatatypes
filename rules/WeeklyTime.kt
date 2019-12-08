@@ -1,7 +1,10 @@
 package bedbrains.shared.datatypes.rules
 
+import android.annotation.TargetApi
+import android.os.Build
 import bedbrains.homesweethomeandroidclient.Tools
 import java.time.LocalDateTime
+import java.util.*
 
 class WeeklyTime {
 
@@ -35,13 +38,26 @@ class WeeklyTime {
         val MAX = WeeklyTime(6, 23, 59, 59, 999)
 
         fun now(): WeeklyTime {
-            val dateTime = LocalDateTime.now()
-            val day = dateTime.dayOfWeek.value
-            val hour = dateTime.hour
-            val minute = dateTime.minute
-            val second = dateTime.second
-            val millis = dateTime.nano / 1000000
-            return WeeklyTime(day, hour, minute, second, millis)
+            val sdkVersion = Build.VERSION.SDK_INT
+            if (sdkVersion < Build.VERSION_CODES.O) {
+                val day = Calendar.DAY_OF_WEEK
+                val hour = Calendar.HOUR
+                val minute = Calendar.MINUTE
+                val second = Calendar.SECOND
+                val millis = Calendar.MILLISECOND
+
+                return WeeklyTime(day, hour, minute, second, millis)
+
+            } else @TargetApi(Build.VERSION_CODES.O) {
+                val dateTime = LocalDateTime.now()
+                val day = dateTime.dayOfWeek.value
+                val hour = dateTime.hour
+                val minute = dateTime.minute
+                val second = dateTime.second
+                val millis = dateTime.nano / 1000000
+
+                return WeeklyTime(day, hour, minute, second, millis)
+            }
         }
     }
 
