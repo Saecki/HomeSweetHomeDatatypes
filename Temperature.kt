@@ -1,7 +1,6 @@
 package bedbrains.shared.datatypes
 
-import bedbrains.homesweethomeandroidclient.Tools
-import java.lang.Exception
+import bedbrains.platform.Tools
 
 class Temperature {
 

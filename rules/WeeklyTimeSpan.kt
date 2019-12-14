@@ -16,8 +16,8 @@ class WeeklyTimeSpan {
     var end: WeeklyTime = WeeklyTime()
 
     fun length(): WeeklyTime {
-        val max = WeeklyTime.MAX.inMillis()
-        return WeeklyTime((((end.inMillis() - start.inMillis()) % max) + max) % max)
+        val max = WeeklyTime.MAX.inMillis
+        return WeeklyTime((((end.inMillis - start.inMillis) % max) + max) % max)
     }
 
     fun isActive(time: WeeklyTime): Boolean {

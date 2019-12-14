@@ -1,64 +1,100 @@
 package bedbrains.shared.datatypes.rules
 
-import android.annotation.TargetApi
-import android.os.Build
-import bedbrains.homesweethomeandroidclient.Tools
-import java.time.LocalDateTime
-import java.util.*
+import bedbrains.platform.Tools
 
 class WeeklyTime {
 
     var day = 0
-        set(day) {
-            field = Tools.clamp(day, 0, 6)
+        set(value) {
+            field = Tools.clamp(value, 0, 6)
         }
 
     var hour = 0
-        set(hour) {
-            field = Tools.clamp(hour, 0, 23)
+        set(value) {
+            field = Tools.clamp(value, 0, 23)
         }
 
     var minute = 0
-        set(minute) {
-            field = Tools.clamp(minute, 0, 59)
+        set(value) {
+            field = Tools.clamp(value, 0, 59)
         }
 
     var second: Int = 0
-        set(second) {
-            field = Tools.clamp(second, 0, 59)
+        set(value) {
+            field = Tools.clamp(value, 0, 59)
         }
 
     var millis = 0
-        set(millis) {
-            field = Tools.clamp(millis, 0, 999)
+        set(value) {
+            field = Tools.clamp(value, 0, 999)
+        }
+
+    var localizedDay: Int
+        set(value) {
+            day = (firstDay + value) % 7
+        }
+        get() {
+            return (7 - firstDay + day) % 7
+        }
+
+    val inDays: Double
+        get() {
+            return day + hour / 60.0 + minute / (24.0 * 60.0) + second / (24.0 * 60.0 * 60.0) + millis / (24.0 * 60.0 * 60.0 * 1000.0)
+        }
+
+    val inHours: Double
+        get() {
+            return day * 24 + hour + minute / 60.0 + second / (60.0 * 60.0) + millis / (60.0 * 60.0 * 1000.0)
+        }
+
+    val inMinutes: Double
+        get() {
+            return day * 24 * 60 + hour * 60 + minute + second / 60.0 + millis / (60.0 * 1000.0)
+        }
+
+    val inSeconds: Double
+        get() {
+            return day * 24 * 60 * 60 + hour * 60 * 60 + minute * 60 + second + millis / 1000.0
+        }
+
+    val inMillis: Int
+        get() {
+            return day * 24 * 60 * 60 * 1000 + hour * 60 * 60 * 1000 + minute * 60 * 1000 + second * 1000 + millis
+        }
+
+    val inDailyHours: Double
+        get() {
+            return hour + minute / 60.0 + second / (60.0 * 60.0) + millis / (60.0 * 60.0 * 1000.0)
+        }
+
+    val inDailyMinutes: Double
+        get() {
+            return hour * 60 + minute + second / 60.0 + millis / (60.0 * 1000.0)
+        }
+
+    val inDailySeconds: Double
+        get() {
+            return hour * 60 * 60 + minute * 60 + second + millis / 1000.0
+        }
+
+    val inDailyMillis: Int
+        get() {
+            return hour * 60 * 60 * 1000 + minute * 60 * 1000 + second * 1000 + millis
         }
 
     companion object {
         val MIN = WeeklyTime(0)
         val MAX = WeeklyTime(6, 23, 59, 59, 999)
-
-        fun now(): WeeklyTime {
-            val sdkVersion = Build.VERSION.SDK_INT
-            if (sdkVersion < Build.VERSION_CODES.O) {
-                val day = Calendar.DAY_OF_WEEK
-                val hour = Calendar.HOUR
-                val minute = Calendar.MINUTE
-                val second = Calendar.SECOND
-                val millis = Calendar.MILLISECOND
-
-                return WeeklyTime(day, hour, minute, second, millis)
-
-            } else @TargetApi(Build.VERSION_CODES.O) {
-                val dateTime = LocalDateTime.now()
-                val day = dateTime.dayOfWeek.value
-                val hour = dateTime.hour
-                val minute = dateTime.minute
-                val second = dateTime.second
-                val millis = dateTime.nano / 1000000
-
-                return WeeklyTime(day, hour, minute, second, millis)
+        val firstDay: Int
+            get() {
+                return Tools.getFirstWeekDay()
             }
-        }
+
+        val now: WeeklyTime
+            get() {
+                return Tools.currentWeeklyTime()
+            }
+
     }
 
     constructor(day: Int, hour: Int, minute: Int, second: Int, millis: Int) {
@@ -79,48 +115,20 @@ class WeeklyTime {
 
     constructor()
 
-    fun inDays(): Double {
-        return day + hour / 60.0 + minute / (24.0 * 60.0) + second / (24.0 * 60.0 * 60.0) + millis / (24.0 * 60.0 * 60.0 * 1000.0)
+    fun before(other: WeeklyTime): Boolean {
+        return this.inMillis < other.inMillis
     }
 
-    fun inHours(): Double {
-        return day * 24 + hour + minute / 60.0 + second / (60.0 * 60.0) + millis / (60.0 * 60.0 * 1000.0)
+    fun localizedBefore(other: WeeklyTime): Boolean {
+        return this.localizedDay < other.localizedDay || this.localizedDay == other.localizedDay && this.inDailyMillis > other.inDailyMillis
     }
 
-    fun inMinutes(): Double {
-        return day * 24 * 60 + hour * 60 + minute + second / 60.0 + millis / (60.0 * 1000.0)
+    fun after(other: WeeklyTime): Boolean {
+        return this.inMillis > other.inMillis
     }
 
-    fun inSeconds(): Double {
-        return day * 24 * 60 * 60 + hour * 60 * 60 + minute * 60 + second + millis / 1000.0
-    }
-
-    fun inMillis(): Int {
-        return day * 24 * 60 * 60 * 1000 + hour * 60 * 60 * 1000 + minute * 60 * 1000 + second * 1000 + millis
-    }
-
-    fun inDailyHours(): Double {
-        return hour + minute / 60.0 + second / (60.0 * 60.0) + millis / (60.0 * 60.0 * 1000.0)
-    }
-
-    fun inDailyMinutes(): Double {
-        return hour * 60 + minute + second / 60.0 + millis / (60.0 * 1000.0)
-    }
-
-    fun inDailySeconds(): Double {
-        return hour * 60 * 60 + minute * 60 + second + millis / 1000.0
-    }
-
-    fun inDailyMillis(): Int {
-        return hour * 60 * 60 * 1000 + minute * 60 * 1000 + second * 1000 + millis
-    }
-
-    fun before(time: WeeklyTime): Boolean {
-        return this.inMillis() < time.inMillis()
-    }
-
-    fun after(time: WeeklyTime): Boolean {
-        return this.inMillis() > time.inMillis()
+    fun localizedAfter(other: WeeklyTime): Boolean {
+        return this.localizedDay > other.localizedDay || this.localizedDay == other.localizedDay && this.inDailyMillis > other.inDailyMillis
     }
 
     override fun equals(other: Any?): Boolean = when (other) {
@@ -129,11 +137,6 @@ class WeeklyTime {
     }
 
     override fun hashCode(): Int {
-        var result = day
-        result = 31 * result + hour
-        result = 31 * result + minute
-        result = 31 * result + second
-        result = 31 * result + millis
-        return result
+        return inMillis
     }
 }

@@ -10,7 +10,7 @@ class WeeklyRule(id: String, name: String) : Rule(id, TYPE, name) {
 
     fun sort() {
         timeSpans.sortBy { weeklyTimeSpan ->
-            weeklyTimeSpan.start.inMillis()
+            weeklyTimeSpan.start.inMillis
         }
     }
 
