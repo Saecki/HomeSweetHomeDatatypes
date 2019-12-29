@@ -1,7 +1,5 @@
 package bedbrains.shared.datatypes.rules
 
-import bedbrains.shared.datatypes.Temperature
-
 class WeeklyTimeSpan {
 
     constructor(start: WeeklyTime, end: WeeklyTime) {
@@ -11,7 +9,7 @@ class WeeklyTimeSpan {
 
     constructor()
 
-    val value: RuleValue = RuleValue(Temperature(), true)
+    val value: RuleValue = RuleValue.UNSPECIFIED
     var start: WeeklyTime = WeeklyTime()
     var end: WeeklyTime = WeeklyTime()
 
