@@ -4,6 +4,46 @@ import bedbrains.platform.Tools
 
 class WeeklyTime {
 
+    data class JSON(val millis: Int) {
+
+        fun toWeeklyTime() = WeeklyTime(millis)
+
+    }
+
+    companion object {
+        val MIN = WeeklyTime(0)
+        val MAX = WeeklyTime(6, 23, 59, 59, 999)
+
+        val firstDay: Int
+            get() {
+                return Tools.getFirstWeekDay()
+            }
+
+        val now: WeeklyTime
+            get() {
+                return Tools.currentWeeklyTime()
+            }
+
+    }
+
+    constructor(day: Int, hour: Int, minute: Int, second: Int, millis: Int) {
+        this.day = day
+        this.hour = hour
+        this.minute = minute
+        this.second = second
+        this.millis = millis
+    }
+
+    constructor(millis: Int) {
+        this.day = millis / (24 * 60 * 60 * 1000) % 7
+        this.hour = millis / (60 * 60 * 1000) % 24
+        this.minute = millis / (60 * 1000) % 60
+        this.second = millis / 1000 % 60
+        this.millis = millis % 1000
+    }
+
+    constructor()
+
     var day = 0
         set(value) {
             field = Tools.clamp(value, 0, 6)
@@ -82,38 +122,7 @@ class WeeklyTime {
             return hour * 60 * 60 * 1000 + minute * 60 * 1000 + second * 1000 + millis
         }
 
-    companion object {
-        val MIN = WeeklyTime(0)
-        val MAX = WeeklyTime(6, 23, 59, 59, 999)
-        val firstDay: Int
-            get() {
-                return Tools.getFirstWeekDay()
-            }
-
-        val now: WeeklyTime
-            get() {
-                return Tools.currentWeeklyTime()
-            }
-
-    }
-
-    constructor(day: Int, hour: Int, minute: Int, second: Int, millis: Int) {
-        this.day = day
-        this.hour = hour
-        this.minute = minute
-        this.second = second
-        this.millis = millis
-    }
-
-    constructor(millis: Int) {
-        this.day = millis / (24 * 60 * 60 * 1000) % 7
-        this.hour = millis / (60 * 60 * 1000) % 24
-        this.minute = millis / (60 * 1000) % 60
-        this.second = millis / 1000 % 60
-        this.millis = millis % 1000
-    }
-
-    constructor()
+    fun toJSON(): JSON = JSON(inMillis)
 
     fun before(other: WeeklyTime): Boolean {
         return this.inMillis < other.inMillis
