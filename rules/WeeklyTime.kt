@@ -1,6 +1,7 @@
 package bedbrains.shared.datatypes.rules
 
-import bedbrains.platform.Tools
+import bedbrains.platform.Time
+import bedbrains.shared.datatypes.clamp
 
 class WeeklyTime {
 
@@ -16,12 +17,12 @@ class WeeklyTime {
 
         val firstDay: Int
             get() {
-                return Tools.getFirstWeekDay()
+                return Time.getFirstWeekDay()
             }
 
         val now: WeeklyTime
             get() {
-                return Tools.currentWeeklyTime()
+                return Time.currentWeeklyTime()
             }
 
     }
@@ -46,27 +47,27 @@ class WeeklyTime {
 
     var day = 0
         set(value) {
-            field = Tools.clamp(value, 0, 6)
+            field = clamp(value, 0, 6)
         }
 
     var hour = 0
         set(value) {
-            field = Tools.clamp(value, 0, 23)
+            field = clamp(value, 0, 23)
         }
 
     var minute = 0
         set(value) {
-            field = Tools.clamp(value, 0, 59)
+            field = clamp(value, 0, 59)
         }
 
     var second: Int = 0
         set(value) {
-            field = Tools.clamp(value, 0, 59)
+            field = clamp(value, 0, 59)
         }
 
     var millis = 0
         set(value) {
-            field = Tools.clamp(value, 0, 999)
+            field = clamp(value, 0, 999)
         }
 
     var localizedDay: Int

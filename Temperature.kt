@@ -1,7 +1,5 @@
 package bedbrains.shared.datatypes
 
-import bedbrains.platform.Tools
-
 class Temperature : Comparable<Temperature> {
 
     data class JSON(val temp: Double) {
@@ -32,7 +30,7 @@ class Temperature : Comparable<Temperature> {
 
     private var temp: Double = 273.0
         set(temp) {
-            field = Tools.clamp(temp, 0.0, Double.MAX_VALUE)
+            field = clamp(temp, 0.0, Double.MAX_VALUE)
         }
 
     var kelvin: Double
