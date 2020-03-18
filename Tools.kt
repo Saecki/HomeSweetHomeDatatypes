@@ -11,18 +11,14 @@ inline fun <T> MutableList<T>.upsert(element: T, predicate: (T) -> Boolean): Boo
     }
 }
 
-fun clamp(value: Double, min: Double, max: Double): Double {
-    return when {
-        value < min -> min
-        value > max -> max
-        else -> value
-    }
+fun clamp(value: Double, min: Double, max: Double) = when {
+    value < min -> min
+    value > max -> max
+    else -> value
 }
 
-fun clamp(value: Int, min: Int, max: Int): Int {
-    return when {
-        value < min -> min
-        value > max -> max
-        else -> value
-    }
+fun clamp(value: Int, min: Int, max: Int) = when {
+    value < min -> min
+    value > max -> max
+    else -> value
 }
