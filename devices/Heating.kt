@@ -1,6 +1,6 @@
 package bedbrains.shared.datatypes.devices
 
-import bedbrains.shared.datatypes.Temperature
+import bedbrains.shared.datatypes.temperature.Temperature
 import bedbrains.shared.datatypes.rules.Rule
 
 class Heating(uid: String, room: String, name: String, var actualTemp: Temperature, var targetTemp: Temperature) : Device(uid, TYPE, room, name) {

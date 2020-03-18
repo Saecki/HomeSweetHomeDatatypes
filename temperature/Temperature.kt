@@ -1,4 +1,6 @@
-package bedbrains.shared.datatypes
+package bedbrains.shared.datatypes.temperature
+
+import bedbrains.shared.datatypes.clamp
 
 class Temperature : Comparable<Temperature> {
 
@@ -48,7 +50,7 @@ class Temperature : Comparable<Temperature> {
         set(value) {
             temp = value + 273
         }
-
+Q
     var fahrenheit: Double
         get() {
             return (9.0 / 5) * (temp - 273) + 32
@@ -85,7 +87,9 @@ class Temperature : Comparable<Temperature> {
     }
 
     fun formatGlobal(appendUnit: Boolean): String {
-        return format(globalUnit, globalDecimals, appendUnit)
+        return format(
+            globalUnit,
+            globalDecimals, appendUnit)
     }
 
     fun format(unit: Unit, decimals: Int, appendUnit: Boolean): String {

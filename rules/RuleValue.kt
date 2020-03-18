@@ -1,6 +1,6 @@
 package bedbrains.shared.datatypes.rules
 
-import bedbrains.shared.datatypes.Temperature
+import bedbrains.shared.datatypes.temperature.Temperature
 
 data class RuleValue(val uid: String, var name: String, var heating: Temperature, var light: Boolean) {
 
