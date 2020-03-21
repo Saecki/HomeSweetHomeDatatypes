@@ -1,26 +1,21 @@
 package bedbrains.shared.datatypes.rules
 
-class WeeklyTimeSpan {
+import com.fasterxml.jackson.annotation.JsonProperty
 
-    data class JSON(val value: RuleValue.JSON, val start: WeeklyTime.JSON, val end: WeeklyTime.JSON) {
+class WeeklyTimeSpan(
+        @get:JsonProperty
+        var value: RuleValue,
+        @get:JsonProperty
+        var start: WeeklyTime,
+        @get:JsonProperty
+        var end: WeeklyTime
+) {
 
-        fun toWeeklyTimeSpan() = WeeklyTimeSpan(start.toWeeklyTime(), end.toWeeklyTime()).also {
-            it.value = value.toRuleValue()
-        }
+    companion object {
+        val UNSPECIFIED = WeeklyTimeSpan(RuleValue.UNSPECIFIED, WeeklyTime(), WeeklyTime())
     }
 
-    constructor(start: WeeklyTime, end: WeeklyTime) {
-        this.start = start
-        this.end = end
-    }
-
-    constructor()
-
-    var value: RuleValue = RuleValue.UNSPECIFIED
-    var start: WeeklyTime = WeeklyTime()
-    var end: WeeklyTime = WeeklyTime()
-
-    fun toJSON(): JSON = JSON(value.toJSON(), start.toJSON(), end.toJSON())
+    constructor(start: WeeklyTime, end: WeeklyTime) : this(RuleValue.UNSPECIFIED, start, end)
 
     fun length(): WeeklyTime {
         val max = WeeklyTime.MAX.inMillis

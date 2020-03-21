@@ -1,13 +1,9 @@
 package bedbrains.shared.datatypes.temperature
 
 import bedbrains.shared.datatypes.clamp
+import com.fasterxml.jackson.annotation.JsonProperty
 
 class Temperature : Comparable<Temperature> {
-
-    data class JSON(val temp: Double) {
-
-        fun toTemperature(): Temperature = temp.kelvin
-    }
 
     enum class Unit(val unit: String, val index: Int) {
         KELVIN("K", 0),
@@ -24,39 +20,33 @@ class Temperature : Comparable<Temperature> {
         var globalDecimals = DEFAULT_DECIMALS
     }
 
-    constructor(temp: Double, unit: Unit) {
-        set(temp, unit)
+    constructor(kelvin: Double, unit: Unit) {
+        set(kelvin, unit)
     }
 
     constructor()
 
-    private var temp: Double = 273.0
-        set(temp) {
-            field = clamp(temp, 0.0, Double.MAX_VALUE)
-        }
 
-    var kelvin: Double
-        get() {
-            return temp
-        }
+    @get:JsonProperty
+    var kelvin = 273.0
         set(value) {
-            temp = value
+            field = clamp(value, 0.0, Double.MAX_VALUE)
         }
 
     var celsius: Double
         get() {
-            return temp - 273
+            return kelvin - 273
         }
         set(value) {
-            temp = value + 273
+            kelvin = value + 273
         }
-Q
+
     var fahrenheit: Double
         get() {
-            return (9.0 / 5) * (temp - 273) + 32
+            return (9.0 / 5) * (kelvin - 273) + 32
         }
         set(value) {
-            this.temp = (5.0 / 9) * (value - 32) + 273
+            this.kelvin = (5.0 / 9) * (value - 32) + 273
         }
 
     var global: Double
@@ -66,9 +56,6 @@ Q
         set(value) {
             set(value, globalUnit)
         }
-
-    val json: JSON
-        get() = JSON(temp)
 
     fun get(unit: Unit): Double {
         return when (unit) {
@@ -88,8 +75,8 @@ Q
 
     fun formatGlobal(appendUnit: Boolean): String {
         return format(
-            globalUnit,
-            globalDecimals, appendUnit)
+                globalUnit,
+                globalDecimals, appendUnit)
     }
 
     fun format(unit: Unit, decimals: Int, appendUnit: Boolean): String {
@@ -107,12 +94,12 @@ Q
     }
 
     override fun hashCode(): Int {
-        return temp.hashCode()
+        return kelvin.hashCode()
     }
 
     override fun compareTo(other: Temperature): Int = when {
-        this.temp == other.temp -> 0
-        this.temp < other.temp -> -1
+        this.kelvin == other.kelvin -> 0
+        this.kelvin < other.kelvin -> -1
         else -> 1
     }
 }

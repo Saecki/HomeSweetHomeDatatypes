@@ -1,18 +1,20 @@
 package bedbrains.shared.datatypes.rules
 
 import bedbrains.shared.datatypes.temperature.Temperature
+import com.fasterxml.jackson.annotation.JsonProperty
 
-data class RuleValue(val uid: String, var name: String, var heating: Temperature, var light: Boolean) {
-
-    data class JSON(val uid: String, var name: String, var heating: Temperature.JSON, var light: Boolean) {
-
-        fun toRuleValue() = RuleValue(uid, name, heating.toTemperature(), light)
-    }
+data class RuleValue(
+        @get:JsonProperty
+        val uid: String,
+        @get:JsonProperty
+        var name: String,
+        @get:JsonProperty
+        var heating: Temperature,
+        @get:JsonProperty
+        var light: Boolean
+) {
 
     companion object {
         val UNSPECIFIED = RuleValue("", "", Temperature(), false) //TODO generate uid
     }
-
-    fun toJSON(): JSON = JSON(uid, name, heating.json, light)
-
 }
