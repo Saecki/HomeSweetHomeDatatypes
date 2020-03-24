@@ -4,13 +4,13 @@ import bedbrains.shared.datatypes.temperature.Temperature
 import com.fasterxml.jackson.annotation.JsonProperty
 
 class Heating(
-        uid: String,
-        room: String,
-        name: String,
-        @get:JsonProperty
-        var actualTemp: Temperature,
-        @get:JsonProperty
-        var targetTemp: Temperature
+    uid: String,
+    room: String,
+    name: String,
+    @field:JsonProperty
+    var actualTemp: Temperature,
+    @field:JsonProperty
+    var targetTemp: Temperature
 ) : Device(uid, TYPE, room, name) {
 
     companion object {
@@ -27,5 +27,4 @@ class Heating(
         }
         else -> false
     }
-
 }

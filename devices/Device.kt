@@ -6,16 +6,20 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 abstract class Device(
-        @get:JsonProperty
-        val uid: String,
-        @get:JsonProperty
-        val type: Int,
-        @get:JsonProperty
-        var room: String,
-        @get:JsonProperty
-        var name: String) {
+    @field:JsonProperty
+    val uid: String,
+    @field:JsonProperty
+    val type: Int,
+    @field:JsonProperty
+    var room: String,
+    @field:JsonProperty
+    var name: String
+) {
 
+    @field:JsonProperty
     var tags: List<String> = ArrayList()
+
+    @field:JsonProperty
     var rules: List<Rule> = ArrayList()
 
     override fun equals(other: Any?): Boolean = when (other) {

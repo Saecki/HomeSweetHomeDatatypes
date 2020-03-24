@@ -3,11 +3,11 @@ package bedbrains.shared.datatypes.devices
 import com.fasterxml.jackson.annotation.JsonProperty
 
 class Light(
-        uid: String,
-        room: String,
-        name: String,
-        @get:JsonProperty
-        var state: Boolean
+    uid: String,
+    room: String,
+    name: String,
+    @get:JsonProperty
+    var state: Boolean
 ) : Device(uid, TYPE, room, name) {
 
     companion object {
