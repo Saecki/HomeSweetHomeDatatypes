@@ -1,5 +1,6 @@
 package bedbrains.shared.datatypes.devices
 
+import bedbrains.shared.datatypes.Unique
 import bedbrains.shared.datatypes.rules.Rule
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeInfo
@@ -7,14 +8,14 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 @JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 abstract class Device(
     @field:JsonProperty
-    val uid: String,
+    override val uid: String,
     @field:JsonProperty
     val type: Int,
     @field:JsonProperty
     var room: String,
     @field:JsonProperty
     var name: String
-) {
+) : Unique {
 
     @field:JsonProperty
     var tags: List<String> = ArrayList()
