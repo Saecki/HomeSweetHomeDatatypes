@@ -8,7 +8,7 @@ class WeeklyRule(uid: String, name: String) : Rule(uid, TYPE, name) {
         const val TYPE = 1
     }
 
-    @get:JsonProperty
+    @field:JsonProperty
     var timeSpans: MutableList<WeeklyTimeSpan> = mutableListOf()
 
     fun sort() {

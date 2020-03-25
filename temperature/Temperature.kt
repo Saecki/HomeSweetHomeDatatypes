@@ -27,7 +27,7 @@ class Temperature : Comparable<Temperature> {
     constructor()
 
 
-    @get:JsonProperty
+    @field:JsonProperty
     var kelvin = 273.0
         set(value) {
             field = clamp(value, 0.0, Double.MAX_VALUE)

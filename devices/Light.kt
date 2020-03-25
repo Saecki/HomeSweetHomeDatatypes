@@ -6,7 +6,7 @@ class Light(
     uid: String,
     room: String,
     name: String,
-    @get:JsonProperty
+    @field:JsonProperty
     var state: Boolean
 ) : Device(uid, TYPE, room, name) {
 

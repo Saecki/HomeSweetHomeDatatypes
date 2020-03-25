@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 abstract class Rule(
-    @get:JsonProperty
+    @field:JsonProperty
     override val uid: String,
-    @get:JsonProperty
+    @field:JsonProperty
     val type: Int,
-    @get:JsonProperty
+    @field:JsonProperty
     var name: String
 ) : Unique {
 

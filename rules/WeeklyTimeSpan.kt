@@ -3,12 +3,12 @@ package bedbrains.shared.datatypes.rules
 import com.fasterxml.jackson.annotation.JsonProperty
 
 class WeeklyTimeSpan(
-        @get:JsonProperty
-        var value: RuleValue,
-        @get:JsonProperty
-        var start: WeeklyTime,
-        @get:JsonProperty
-        var end: WeeklyTime
+    @field:JsonProperty
+    var value: RuleValue,
+    @field:JsonProperty
+    var start: WeeklyTime,
+    @field:JsonProperty
+    var end: WeeklyTime
 ) {
 
     companion object {

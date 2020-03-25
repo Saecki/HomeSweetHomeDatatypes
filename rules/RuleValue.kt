@@ -6,13 +6,13 @@ import bedbrains.shared.datatypes.temperature.Temperature
 import com.fasterxml.jackson.annotation.JsonProperty
 
 data class RuleValue(
-    @get:JsonProperty
+    @field:JsonProperty
     override val uid: String,
-    @get:JsonProperty
+    @field:JsonProperty
     var name: String,
-    @get:JsonProperty
+    @field:JsonProperty
     var heating: Temperature,
-    @get:JsonProperty
+    @field:JsonProperty
     var light: Boolean
 ) : Unique {
 

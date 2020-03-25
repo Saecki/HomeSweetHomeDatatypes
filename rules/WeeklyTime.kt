@@ -2,7 +2,6 @@ package bedbrains.shared.datatypes.rules
 
 import bedbrains.platform.Time
 import bedbrains.shared.datatypes.clamp
-import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 
 class WeeklyTime {
@@ -31,8 +30,7 @@ class WeeklyTime {
         this.millis = millis
     }
 
-    @JsonCreator
-    constructor(@JsonProperty millis: Int) {
+    constructor(millis: Int) {
         this.day = millis / (24 * 60 * 60 * 1000) % 7
         this.hour = millis / (60 * 60 * 1000) % 24
         this.minute = millis / (60 * 1000) % 60
@@ -42,26 +40,31 @@ class WeeklyTime {
 
     constructor()
 
+    @field:JsonProperty
     var day = 0
         set(value) {
             field = clamp(value, 0, 6)
         }
 
+    @field:JsonProperty
     var hour = 0
         set(value) {
             field = clamp(value, 0, 23)
         }
 
+    @field:JsonProperty
     var minute = 0
         set(value) {
             field = clamp(value, 0, 59)
         }
 
+    @field:JsonProperty
     var second: Int = 0
         set(value) {
             field = clamp(value, 0, 59)
         }
 
+    @field:JsonProperty
     var millis = 0
         set(value) {
             field = clamp(value, 0, 999)
@@ -95,7 +98,6 @@ class WeeklyTime {
             return day * 24 * 60 * 60 + hour * 60 * 60 + minute * 60 + second + millis / 1000.0
         }
 
-    @get:JsonProperty
     val inMillis: Int
         get() {
             return day * 24 * 60 * 60 * 1000 + hour * 60 * 60 * 1000 + minute * 60 * 1000 + second * 1000 + millis
