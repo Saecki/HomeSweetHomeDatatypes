@@ -13,7 +13,7 @@ class WeeklyRule(uid: String, name: String) : Rule(uid, TYPE, name) {
 
     fun sort() {
         timeSpans.sortBy { weeklyTimeSpan ->
-            weeklyTimeSpan.start.inMillis
+            weeklyTimeSpan.start.inMilliseconds
         }
     }
 

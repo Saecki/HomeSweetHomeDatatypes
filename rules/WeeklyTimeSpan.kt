@@ -18,8 +18,8 @@ class WeeklyTimeSpan(
     constructor(start: WeeklyTime, end: WeeklyTime) : this(RuleValue.UNSPECIFIED, start, end)
 
     fun length(): WeeklyTime {
-        val max = WeeklyTime.MAX.inMillis
-        return WeeklyTime((((end.inMillis - start.inMillis) % max) + max) % max)
+        val max = WeeklyTime.MAX.inMilliseconds
+        return WeeklyTime((((end.inMilliseconds - start.inMilliseconds) % max) + max) % max)
     }
 
     fun isActive(time: WeeklyTime): Boolean {

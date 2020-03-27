@@ -1,7 +1,6 @@
 package bedbrains.shared.datatypes.rules
 
 import bedbrains.platform.Time
-import bedbrains.shared.datatypes.clamp
 import com.fasterxml.jackson.annotation.JsonProperty
 
 class WeeklyTime {
@@ -19,55 +18,52 @@ class WeeklyTime {
             get() {
                 return Time.currentWeeklyTime()
             }
-
     }
 
+    @field:JsonProperty
+    private var milliseconds = 0
+        set(value) {
+            field = Math.floorMod(value, 7 * 24 * 60 * 60 * 1000)
+        }
+
     constructor(day: Int, hour: Int, minute: Int, second: Int, millis: Int) {
-        this.day = day
-        this.hour = hour
-        this.minute = minute
-        this.second = second
-        this.millis = millis
+        milliseconds = day * 24 * 60 * 60 * 1000 + hour * 60 * 60 * 1000 + minute * 60 * 1000 + second * 1000 + millis
     }
 
     constructor(millis: Int) {
-        this.day = millis / (24 * 60 * 60 * 1000) % 7
-        this.hour = millis / (60 * 60 * 1000) % 24
-        this.minute = millis / (60 * 1000) % 60
-        this.second = millis / 1000 % 60
-        this.millis = millis % 1000
+        milliseconds = millis
     }
 
     constructor()
 
-    @field:JsonProperty
-    var day = 0
+    var day: Int
+        get() = milliseconds / (24 * 60 * 60 * 1000)
         set(value) {
-            field = clamp(value, 0, 6)
+            milliseconds = value * 24 * 60 * 60 * 1000 + milliseconds % (24 * 60 * 60 * 1000)
         }
 
-    @field:JsonProperty
-    var hour = 0
+    var hour: Int
+        get() = milliseconds % (24 * 60 * 60 * 1000) / (60 * 60 * 1000)
         set(value) {
-            field = clamp(value, 0, 23)
+            milliseconds = milliseconds - milliseconds % (24 * 60 * 60 * 1000) + value * 60 * 60 * 1000 + milliseconds % (60 * 60 * 1000)
         }
 
-    @field:JsonProperty
-    var minute = 0
+    var minute: Int
+        get() = milliseconds % (60 * 60 * 1000) / (60 * 1000)
         set(value) {
-            field = clamp(value, 0, 59)
+            milliseconds = milliseconds - milliseconds % (60 * 60 * 1000) + value * 60 * 1000 + milliseconds % (60 * 1000)
         }
 
-    @field:JsonProperty
-    var second: Int = 0
+    var second: Int
+        get() = milliseconds % (60 * 1000) / 1000
         set(value) {
-            field = clamp(value, 0, 59)
+            milliseconds = milliseconds - milliseconds % (60 * 1000) + value * 1000 + milliseconds % 1000
         }
 
-    @field:JsonProperty
-    var millis = 0
+    var millisecond: Int
+        get() = milliseconds % 1000
         set(value) {
-            field = clamp(value, 0, 999)
+            milliseconds = milliseconds - milliseconds % 1000 + value
         }
 
     var localizedDay: Int
@@ -79,64 +75,46 @@ class WeeklyTime {
         }
 
     val inDays: Double
-        get() {
-            return day + hour / 60.0 + minute / (24.0 * 60.0) + second / (24.0 * 60.0 * 60.0) + millis / (24.0 * 60.0 * 60.0 * 1000.0)
-        }
+        get() = milliseconds / (24.0 * 60.0 * 60.0 * 1000.0)
 
     val inHours: Double
-        get() {
-            return day * 24 + hour + minute / 60.0 + second / (60.0 * 60.0) + millis / (60.0 * 60.0 * 1000.0)
-        }
+        get() = milliseconds / (60.0 * 60.0 * 1000.0)
 
     val inMinutes: Double
-        get() {
-            return day * 24 * 60 + hour * 60 + minute + second / 60.0 + millis / (60.0 * 1000.0)
-        }
+        get() = milliseconds / (60.0 * 1000.0)
 
     val inSeconds: Double
-        get() {
-            return day * 24 * 60 * 60 + hour * 60 * 60 + minute * 60 + second + millis / 1000.0
-        }
+        get() = milliseconds / 1000.0
 
-    val inMillis: Int
-        get() {
-            return day * 24 * 60 * 60 * 1000 + hour * 60 * 60 * 1000 + minute * 60 * 1000 + second * 1000 + millis
-        }
+    val inMilliseconds: Int
+        get() = milliseconds
 
     val inDailyHours: Double
-        get() {
-            return hour + minute / 60.0 + second / (60.0 * 60.0) + millis / (60.0 * 60.0 * 1000.0)
-        }
+        get() = inDailyMilliseconds / (60.0 * 60.0 * 1000.0)
 
     val inDailyMinutes: Double
-        get() {
-            return hour * 60 + minute + second / 60.0 + millis / (60.0 * 1000.0)
-        }
+        get() = inDailyMilliseconds / (60.0 * 1000.0)
 
     val inDailySeconds: Double
-        get() {
-            return hour * 60 * 60 + minute * 60 + second + millis / 1000.0
-        }
+        get() = inDailyMilliseconds / 1000.0
 
-    val inDailyMillis: Int
-        get() {
-            return hour * 60 * 60 * 1000 + minute * 60 * 1000 + second * 1000 + millis
-        }
+    val inDailyMilliseconds: Int
+        get() = milliseconds - (milliseconds / (24 * 60 * 60 * 1000) * 24 * 60 * 60 * 1000)
 
     fun before(other: WeeklyTime): Boolean {
-        return this.inMillis < other.inMillis
+        return this.inMilliseconds < other.inMilliseconds
     }
 
     fun localizedBefore(other: WeeklyTime): Boolean {
-        return this.localizedDay < other.localizedDay || this.localizedDay == other.localizedDay && this.inDailyMillis > other.inDailyMillis
+        return this.localizedDay < other.localizedDay || this.localizedDay == other.localizedDay && this.inDailyMilliseconds > other.inDailyMilliseconds
     }
 
     fun after(other: WeeklyTime): Boolean {
-        return this.inMillis > other.inMillis
+        return this.inMilliseconds > other.inMilliseconds
     }
 
     fun localizedAfter(other: WeeklyTime): Boolean {
-        return this.localizedDay > other.localizedDay || this.localizedDay == other.localizedDay && this.inDailyMillis > other.inDailyMillis
+        return this.localizedDay > other.localizedDay || this.localizedDay == other.localizedDay && this.inDailyMilliseconds > other.inDailyMilliseconds
     }
 
     override fun equals(other: Any?): Boolean = when (other) {
@@ -145,6 +123,6 @@ class WeeklyTime {
     }
 
     override fun hashCode(): Int {
-        return inMillis
+        return inMilliseconds
     }
 }
