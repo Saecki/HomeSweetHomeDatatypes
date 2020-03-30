@@ -17,7 +17,7 @@ class Light(
     override fun equals(other: Any?): Boolean = when (other) {
         is Light -> {
             super.equals(other) &&
-                    this.state == other.state
+                this.state == other.state
         }
         else -> false
     }

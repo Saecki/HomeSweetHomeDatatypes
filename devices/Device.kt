@@ -26,11 +26,11 @@ abstract class Device(
     override fun equals(other: Any?): Boolean = when (other) {
         is Device -> {
             this.uid == other.uid &&
-                    this.type == other.type &&
-                    this.room == other.room &&
-                    this.name == other.name &&
-                    this.tags == other.tags &&
-                    this.rules == other.rules
+                this.type == other.type &&
+                this.room == other.room &&
+                this.name == other.name &&
+                this.tags == other.tags &&
+                this.rules == other.rules
         }
         else -> false
     }

@@ -11,13 +11,7 @@ inline fun <T> MutableList<T>.upsert(element: T, predicate: (T) -> Boolean): Boo
     }
 }
 
-fun clamp(value: Double, min: Double, max: Double) = when {
-    value < min -> min
-    value > max -> max
-    else -> value
-}
-
-fun clamp(value: Int, min: Int, max: Int) = when {
+fun <T : Comparable<T>> clamp(value: T, min: T, max: T) = when {
     value < min -> min
     value > max -> max
     else -> value

@@ -22,8 +22,8 @@ class Heating(
     override fun equals(other: Any?): Boolean = when (other) {
         is Heating -> {
             super.equals(other) &&
-                    this.actualTemp == other.actualTemp &&
-                    this.targetTemp == other.targetTemp
+                this.actualTemp == other.actualTemp &&
+                this.targetTemp == other.targetTemp
         }
         else -> false
     }
