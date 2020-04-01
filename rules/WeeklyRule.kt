@@ -11,12 +11,6 @@ class WeeklyRule(uid: String, name: String) : Rule(uid, TYPE, name) {
     @field:JsonProperty
     var timeSpans: MutableList<WeeklyTimeSpan> = mutableListOf()
 
-    fun sort() {
-        timeSpans.sortBy { weeklyTimeSpan ->
-            weeklyTimeSpan.start.inMilliseconds
-        }
-    }
-
     override fun getValue(time: WeeklyTime): RuleValue {
         timeSpans.forEach {
             if (it.isActive(time)) {

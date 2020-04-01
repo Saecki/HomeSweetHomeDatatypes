@@ -1,21 +1,25 @@
 package bedbrains.shared.datatypes.rules
 
+import bedbrains.platform.UIDProvider
+import bedbrains.shared.datatypes.Unique
 import com.fasterxml.jackson.annotation.JsonProperty
 
 class WeeklyTimeSpan(
+    @field:JsonProperty
+    override val uid: String,
     @field:JsonProperty
     var value: RuleValue,
     @field:JsonProperty
     var start: WeeklyTime,
     @field:JsonProperty
     var end: WeeklyTime
-) {
+) : Unique {
 
     companion object {
-        val UNSPECIFIED = WeeklyTimeSpan(RuleValue.UNSPECIFIED, WeeklyTime(), WeeklyTime())
+        val UNSPECIFIED = WeeklyTimeSpan(UIDProvider.newUID, RuleValue.UNSPECIFIED, WeeklyTime(), WeeklyTime())
     }
 
-    constructor(start: WeeklyTime, end: WeeklyTime) : this(RuleValue.UNSPECIFIED, start, end)
+    constructor(start: WeeklyTime, end: WeeklyTime) : this(UIDProvider.newUID, RuleValue.UNSPECIFIED, start, end)
 
     fun length(): WeeklyTime {
         val max = WeeklyTime.MAX.inMilliseconds
