@@ -75,8 +75,9 @@ class Temperature : Comparable<Temperature> {
 
     fun formatGlobal(appendUnit: Boolean): String {
         return format(
-                globalUnit,
-                globalDecimals, appendUnit)
+            globalUnit,
+            globalDecimals, appendUnit
+        )
     }
 
     fun format(unit: Unit, decimals: Int, appendUnit: Boolean): String {
@@ -104,20 +105,11 @@ class Temperature : Comparable<Temperature> {
     }
 }
 
-val Double.kelvin: Temperature
-    get() = Temperature(this, Temperature.Unit.KELVIN)
-
-val Int.kelvin: Temperature
+val Number.kelvin: Temperature
     get() = Temperature(this.toDouble(), Temperature.Unit.KELVIN)
 
-val Double.celsius: Temperature
-    get() = Temperature(this, Temperature.Unit.CELSIUS)
-
-val Int.celsius: Temperature
+val Number.celsius: Temperature
     get() = Temperature(this.toDouble(), Temperature.Unit.CELSIUS)
 
-val Double.fahrenheit: Temperature
-    get() = Temperature(this, Temperature.Unit.FAHRENHEIT)
-
-val Int.fahrenheit: Temperature
+val Number.fahrenheit: Temperature
     get() = Temperature(this.toDouble(), Temperature.Unit.FAHRENHEIT)

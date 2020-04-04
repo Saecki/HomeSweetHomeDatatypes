@@ -1,9 +1,9 @@
-package bedbrains.shared.datatypes.rules
+package bedbrains.shared.datatypes.time
 
 import bedbrains.platform.Time
 import com.fasterxml.jackson.annotation.JsonProperty
 
-class WeeklyTime {
+class WeeklyTime : Comparable<WeeklyTime> {
 
     companion object {
         val MIN = WeeklyTime(0)
@@ -101,16 +101,8 @@ class WeeklyTime {
     val inDailyMilliseconds: Int
         get() = milliseconds - (milliseconds / (24 * 60 * 60 * 1000) * 24 * 60 * 60 * 1000)
 
-    fun before(other: WeeklyTime): Boolean {
-        return this.inMilliseconds < other.inMilliseconds
-    }
-
     fun localizedBefore(other: WeeklyTime): Boolean {
         return this.localizedDay < other.localizedDay || this.localizedDay == other.localizedDay && this.inDailyMilliseconds > other.inDailyMilliseconds
-    }
-
-    fun after(other: WeeklyTime): Boolean {
-        return this.inMilliseconds > other.inMilliseconds
     }
 
     fun localizedAfter(other: WeeklyTime): Boolean {
@@ -125,4 +117,34 @@ class WeeklyTime {
     override fun hashCode(): Int {
         return inMilliseconds
     }
+
+    override fun compareTo(other: WeeklyTime): Int = when {
+        this.milliseconds == other.milliseconds -> 0
+        this.milliseconds < other.milliseconds -> -1
+        else -> 1
+    }
+
+    operator fun plus(other: WeeklyTime): WeeklyTime {
+        return WeeklyTime(this.millisecond + other.milliseconds)
+    }
+
+    operator fun minus(other: WeeklyTime): WeeklyTime {
+        return WeeklyTime(this.millisecond - other.milliseconds)
+    }
 }
+
+val Number.days: WeeklyTime
+    get() = WeeklyTime((this.toDouble() * 24 * 60 * 60 * 1000).toInt())
+
+val Number.hours: WeeklyTime
+    get() = WeeklyTime((this.toDouble() * 60 * 60 * 1000).toInt())
+
+val Number.minutes: WeeklyTime
+    get() = WeeklyTime((this.toDouble() * 60 * 1000).toInt())
+
+val Number.seconds: WeeklyTime
+    get() = WeeklyTime((this.toDouble() * 1000).toInt())
+
+val Number.milliseconds: WeeklyTime
+    get() = WeeklyTime(this.toInt())
+

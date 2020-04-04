@@ -1,6 +1,7 @@
 package bedbrains.shared.datatypes.rules
 
 import bedbrains.shared.datatypes.Unique
+import bedbrains.shared.datatypes.time.WeeklyTime
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 
