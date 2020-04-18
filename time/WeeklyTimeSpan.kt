@@ -17,12 +17,13 @@ class WeeklyTimeSpan(
 ) : Unique, Comparable<WeeklyTimeSpan> {
 
     companion object {
-        val UNSPECIFIED = WeeklyTimeSpan(
-            UIDProvider.newUID,
-            RuleValue.UNSPECIFIED,
-            WeeklyTime(),
-            WeeklyTime()
-        )
+        val UNSPECIFIED
+            get() = WeeklyTimeSpan(
+                UIDProvider.newUID,
+                RuleValue.UNSPECIFIED,
+                WeeklyTime.localMin,
+                WeeklyTime.localMin
+            )
     }
 
     constructor(start: WeeklyTime, end: WeeklyTime) : this(

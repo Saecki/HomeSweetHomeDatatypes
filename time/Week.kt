@@ -1,5 +1,7 @@
 package bedbrains.shared.datatypes.time
 
+import bedbrains.shared.datatypes.rules.RuleValue
+
 class Week : ArrayList<WeeklyTimeSpan>() {
 
     private val timeSpans = mutableListOf<WeeklyTimeSpan>()
@@ -40,5 +42,11 @@ class Week : ArrayList<WeeklyTimeSpan>() {
         }
 
         return false
+    }
+
+    fun applyToAll(value: RuleValue) {
+        this.map {
+            it.value = value.copy()
+        }
     }
 }

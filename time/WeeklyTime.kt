@@ -9,15 +9,17 @@ class WeeklyTime : Comparable<WeeklyTime> {
         val MIN = WeeklyTime(0)
         val MAX = WeeklyTime(6, 23, 59, 59, 999)
 
+        val localMin: WeeklyTime
+            get() = WeeklyTime().apply { day = firstDay }
+
+        val localMax: WeeklyTime
+            get() = WeeklyTime().apply { day = 6 - firstDay }
+
         val firstDay: Int
-            get() {
-                return Time.getFirstWeekDay()
-            }
+            get() = Time.getFirstWeekDay()
 
         val now: WeeklyTime
-            get() {
-                return Time.currentWeeklyTime()
-            }
+            get() = Time.currentWeeklyTime()
     }
 
     @field:JsonProperty

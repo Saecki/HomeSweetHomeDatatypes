@@ -17,6 +17,7 @@ data class RuleValue(
 ) : Unique {
 
     companion object {
-        val UNSPECIFIED = RuleValue(UIDProvider.newUID, "", Temperature(), false)
+        val UNSPECIFIED
+            get() = RuleValue(UIDProvider.newUID, "", Temperature(), false)
     }
 }

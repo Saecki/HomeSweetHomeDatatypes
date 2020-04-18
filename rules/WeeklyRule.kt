@@ -21,10 +21,4 @@ class WeeklyRule(uid: String, name: String) : Rule(uid, TYPE, name) {
         }
         return RuleValue.UNSPECIFIED
     }
-
-    fun applyValueToAllTimeSpans(value: RuleValue) {
-        timeSpans.map {
-            it.value = value
-        }
-    }
 }
