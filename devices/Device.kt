@@ -4,6 +4,7 @@ import bedbrains.shared.datatypes.Unique
 import bedbrains.shared.datatypes.rules.Rule
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import java.io.Serializable
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 abstract class Device(
@@ -15,7 +16,7 @@ abstract class Device(
     var room: String,
     @field:JsonProperty
     var name: String
-) : Unique {
+) : Unique, Serializable {
 
     @field:JsonProperty
     var tags: List<String> = ArrayList()
@@ -33,5 +34,15 @@ abstract class Device(
                 this.rules == other.rules
         }
         else -> false
+    }
+
+    override fun hashCode(): Int {
+        var result = uid.hashCode()
+        result = 31 * result + type
+        result = 31 * result + room.hashCode()
+        result = 31 * result + name.hashCode()
+        result = 31 * result + tags.hashCode()
+        result = 31 * result + rules.hashCode()
+        return result
     }
 }

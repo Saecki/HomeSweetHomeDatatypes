@@ -2,12 +2,16 @@ package bedbrains.shared.datatypes.time
 
 import bedbrains.platform.Time
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.Serializable
 
-class WeeklyTime : Comparable<WeeklyTime> {
+class WeeklyTime : Comparable<WeeklyTime>, Serializable {
 
     companion object {
-        val MIN = WeeklyTime(0)
-        val MAX = WeeklyTime(6, 23, 59, 59, 999)
+        val MIN: WeeklyTime
+            get() = WeeklyTime(0)
+
+        val MAX: WeeklyTime
+            get() = WeeklyTime(6, 23, 59, 59, 999)
 
         val localMin: WeeklyTime
             get() = WeeklyTime().apply { day = firstDay }
@@ -127,11 +131,11 @@ class WeeklyTime : Comparable<WeeklyTime> {
     }
 
     operator fun plus(other: WeeklyTime): WeeklyTime {
-        return WeeklyTime(this.millisecond + other.milliseconds)
+        return WeeklyTime(this.milliseconds + other.milliseconds)
     }
 
     operator fun minus(other: WeeklyTime): WeeklyTime {
-        return WeeklyTime(this.millisecond - other.milliseconds)
+        return WeeklyTime(this.milliseconds - other.milliseconds)
     }
 }
 

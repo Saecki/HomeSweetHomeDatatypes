@@ -1,5 +1,6 @@
 package bedbrains.shared.datatypes.time
 
+import bedbrains.shared.datatypes.deepCopy
 import bedbrains.shared.datatypes.rules.RuleValue
 
 class Week : ArrayList<WeeklyTimeSpan>() {
@@ -37,7 +38,7 @@ class Week : ArrayList<WeeklyTimeSpan>() {
 
     fun overlays(timeSpan: WeeklyTimeSpan): Boolean {
         for (t in this) {
-            if (t.overlays(timeSpan))
+            if (t.uid != timeSpan.uid && t.overlays(timeSpan))
                 return true
         }
 
@@ -46,7 +47,7 @@ class Week : ArrayList<WeeklyTimeSpan>() {
 
     fun applyToAll(value: RuleValue) {
         this.map {
-            it.value = value.copy()
+            it.value = value.deepCopy()
         }
     }
 }

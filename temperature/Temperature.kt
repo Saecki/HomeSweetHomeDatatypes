@@ -1,9 +1,10 @@
 package bedbrains.shared.datatypes.temperature
 
-import bedbrains.shared.datatypes.clamp
+import bedbrains.shared.datatypes.clamped
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.Serializable
 
-class Temperature : Comparable<Temperature> {
+class Temperature : Comparable<Temperature>, Serializable {
 
     enum class Unit(val unit: String, val index: Int) {
         KELVIN("K", 0),
@@ -12,16 +13,20 @@ class Temperature : Comparable<Temperature> {
     }
 
     companion object {
-        val MIN = Temperature(0.0, Unit.KELVIN)
-        val DEFAULT_UNIT = Unit.CELSIUS
+        val MIN: Temperature
+            get() = Temperature(0.0, Unit.KELVIN)
+
+        val DEFAULT_UNIT: Unit
+            get() = Unit.CELSIUS
 
         const val DEFAULT_DECIMALS = 1
+
         var globalUnit = DEFAULT_UNIT
         var globalDecimals = DEFAULT_DECIMALS
     }
 
-    constructor(kelvin: Double, unit: Unit) {
-        set(kelvin, unit)
+    constructor(temperature: Double, unit: Unit) {
+        set(temperature, unit)
     }
 
     constructor()
@@ -30,7 +35,7 @@ class Temperature : Comparable<Temperature> {
     @field:JsonProperty
     var kelvin = 273.0
         set(value) {
-            field = clamp(value, 0.0, Double.MAX_VALUE)
+            field = value.clamped(0.0, Double.MAX_VALUE)
         }
 
     var celsius: Double

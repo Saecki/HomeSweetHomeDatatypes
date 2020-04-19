@@ -27,4 +27,12 @@ class Heating(
         }
         else -> false
     }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + actualTemp.hashCode()
+        result = 31 * result + targetTemp.hashCode()
+        result = 31 * result + extended.hashCode()
+        return result
+    }
 }

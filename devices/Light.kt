@@ -22,4 +22,10 @@ class Light(
         else -> false
     }
 
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + state.hashCode()
+        return result
+    }
+
 }

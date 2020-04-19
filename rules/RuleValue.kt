@@ -4,6 +4,7 @@ import bedbrains.platform.UIDProvider
 import bedbrains.shared.datatypes.Unique
 import bedbrains.shared.datatypes.temperature.Temperature
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.io.Serializable
 
 data class RuleValue(
     @field:JsonProperty
@@ -14,7 +15,7 @@ data class RuleValue(
     var heating: Temperature,
     @field:JsonProperty
     var light: Boolean
-) : Unique {
+) : Unique, Serializable {
 
     companion object {
         val UNSPECIFIED

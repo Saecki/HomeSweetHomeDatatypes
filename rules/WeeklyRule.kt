@@ -21,4 +21,16 @@ class WeeklyRule(uid: String, name: String) : Rule(uid, TYPE, name) {
         }
         return RuleValue.UNSPECIFIED
     }
+
+    override fun equals(other: Any?): Boolean = when (other) {
+        is WeeklyRule -> super.equals(other) &&
+            this.timeSpans == other.timeSpans
+        else -> false
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + timeSpans.hashCode()
+        return result
+    }
 }
