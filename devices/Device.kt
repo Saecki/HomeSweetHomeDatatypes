@@ -19,10 +19,10 @@ abstract class Device(
 ) : Unique, Serializable {
 
     @field:JsonProperty
-    var tags: List<String> = ArrayList()
+    var tags: MutableSet<String> = mutableSetOf()
 
     @field:JsonProperty
-    var rules: List<Rule> = ArrayList()
+    var rules: MutableList<Rule> = mutableListOf()
 
     override fun equals(other: Any?): Boolean = when (other) {
         is Device -> {
