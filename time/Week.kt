@@ -2,9 +2,11 @@ package bedbrains.shared.datatypes.time
 
 import bedbrains.shared.datatypes.deepCopy
 import bedbrains.shared.datatypes.rules.RuleValue
+import com.fasterxml.jackson.annotation.JsonProperty
 
 class Week : ArrayList<WeeklyTimeSpan>() {
 
+    @field:JsonProperty
     private val timeSpans = mutableListOf<WeeklyTimeSpan>()
 
     override fun add(element: WeeklyTimeSpan): Boolean {

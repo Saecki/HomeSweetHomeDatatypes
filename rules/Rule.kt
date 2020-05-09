@@ -8,15 +8,12 @@ import java.io.Serializable
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.MINIMAL_CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 abstract class Rule(
-    @field:JsonProperty
-    override val uid: String,
-    @field:JsonProperty
-    val type: Int,
-    @field:JsonProperty
-    var name: String
+    @field:JsonProperty override val uid: String,
+    @field:JsonProperty val type: Int,
+    @field:JsonProperty var name: String
 ) : Unique, Serializable {
 
-    abstract fun getValue(time: WeeklyTime): RuleValue
+    abstract val value: RuleValue
 
     override fun equals(other: Any?): Boolean = when (other) {
         is Rule -> {

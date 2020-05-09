@@ -10,16 +10,15 @@ class WeeklyRule(uid: String, name: String) : Rule(uid, TYPE, name) {
         const val TYPE = 1
     }
 
+    override val value: RuleValue
+        get() = getValue(WeeklyTime.now)
+
     @field:JsonProperty
     var timeSpans = Week()
 
-    override fun getValue(time: WeeklyTime): RuleValue {
-        timeSpans.forEach {
-            if (it.contains(time)) {
-                return it.value
-            }
-        }
-        return RuleValue.UNSPECIFIED
+
+    fun getValue(time: WeeklyTime): RuleValue {
+        return timeSpans.find { it.contains(time) }?.value ?: RuleValue.UNSPECIFIED
     }
 
     override fun equals(other: Any?): Boolean = when (other) {

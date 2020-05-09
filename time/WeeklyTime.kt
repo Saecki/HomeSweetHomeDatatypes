@@ -80,20 +80,35 @@ class WeeklyTime : Comparable<WeeklyTime>, Serializable {
             return (7 - firstDay + day) % 7
         }
 
-    val inDays: Double
+    var inDays: Double
         get() = milliseconds / (24.0 * 60.0 * 60.0 * 1000.0)
+        set(value) {
+            milliseconds = (value * 24.0 * 60.0 * 60.0 * 1000.0).toInt()
+        }
 
-    val inHours: Double
+    var inHours: Double
         get() = milliseconds / (60.0 * 60.0 * 1000.0)
+        set(value) {
+            milliseconds = (value * 60.0 * 60.0 * 1000.0).toInt()
+        }
 
-    val inMinutes: Double
+    var inMinutes: Double
         get() = milliseconds / (60.0 * 1000.0)
+        set(value) {
+            milliseconds = (value * 60.0 * 1000.0).toInt()
+        }
 
-    val inSeconds: Double
+    var inSeconds: Double
         get() = milliseconds / 1000.0
+        set(value) {
+            milliseconds = (value * 1000.0).toInt()
+        }
 
-    val inMilliseconds: Int
+    var inMilliseconds: Int
         get() = milliseconds
+        set(value) {
+            milliseconds = value
+        }
 
     val inDailyHours: Double
         get() = inDailyMilliseconds / (60.0 * 60.0 * 1000.0)
@@ -105,7 +120,7 @@ class WeeklyTime : Comparable<WeeklyTime>, Serializable {
         get() = inDailyMilliseconds / 1000.0
 
     val inDailyMilliseconds: Int
-        get() = milliseconds - (milliseconds / (24 * 60 * 60 * 1000) * 24 * 60 * 60 * 1000)
+        get() = milliseconds % (24 * 60 * 60 * 1000)
 
     fun localizedBefore(other: WeeklyTime): Boolean {
         return this.localizedDay < other.localizedDay || this.localizedDay == other.localizedDay && this.inDailyMilliseconds > other.inDailyMilliseconds

@@ -7,14 +7,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.Serializable
 
 class WeeklyTimeSpan(
-    @field:JsonProperty
-    override val uid: String,
-    @field:JsonProperty
-    var value: RuleValue,
-    @field:JsonProperty
-    var start: WeeklyTime,
-    @field:JsonProperty
-    var end: WeeklyTime
+    @field:JsonProperty override val uid: String,
+    @field:JsonProperty var value: RuleValue,
+    @field:JsonProperty var start: WeeklyTime,
+    @field:JsonProperty var end: WeeklyTime
 ) : Unique, Comparable<WeeklyTimeSpan>, Serializable {
 
     companion object {
