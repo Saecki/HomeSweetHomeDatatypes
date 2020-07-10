@@ -2,25 +2,17 @@ package bedbrains.shared.datatypes
 
 import java.io.*
 
-inline fun <T> MutableList<T>.upsert(element: T, predicate: (T) -> Boolean): Boolean {
+inline fun <T> List<T>.upsert(element: T, predicate: (T) -> Boolean): List<T> {
     val index = this.indexOfFirst(predicate)
     return if (index == -1) {
-        this.add(element)
-        false
+        this.plus(element)
     } else {
-        this[index] = element
-        true
+        this.mapIndexed { i, e -> if (i == index) element else e }
     }
 }
 
-inline fun <T> MutableList<T>.update(element: T, predicate: (T) -> Boolean): Boolean {
-    val index = this.indexOfFirst(predicate)
-    return if (index == -1) {
-        false
-    } else {
-        this[index] = element
-        true
-    }
+inline fun <T> List<T>.update(element: T, predicate: (T) -> Boolean): List<T> {
+    return this.map { if (predicate(it)) element else it }
 }
 
 fun <T : Comparable<T>> T.clamped(min: T, max: T) = when {
